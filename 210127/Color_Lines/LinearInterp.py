@@ -8,14 +8,6 @@ def LinearInterp(x1,y1,z1,x2,y2,z2,scalar):
     y3 = float((y1 + y2)*scalar)
     z3 = float((z1 + z2)*scalar)
     
-    #Constrain the result by the endpoints
     
-    if (x3,y3,z3) >= (x2,y2,z2):
-        
-        x3,y3,z3 = x2,y2,z2
-    
-    if (x3,y3,z3) <= (x1,y1,z1):
-        
-        x3,y3,z3 = x1,y1,z1
     
     return(color(x3,y3,z3))

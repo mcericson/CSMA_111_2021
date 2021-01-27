@@ -23,11 +23,16 @@ def setup():
 
 def draw():
     background(255)
-    
+    C = []
     scalar = []
     for i in range(0,Height,1):
         scalar.append(float(i)/Height)
         Color = LinearInterp(12,59,101,255,255,255,scalar[i])
-        stroke(Color)
+        C.append(Color)
+
+    for i in range(0,Height,1):
+        stroke(C[i])
+        strokeWeight(1)
         line(0,i,Width,i)
     
+    print 
