@@ -35,6 +35,7 @@ def draw():
     
     HorAngle += 2    
     
+    # calculating the points on a circle
     x = cos(radians(HorAngle))*Radius
     y = sin(radians(HorAngle))*Radius
     
