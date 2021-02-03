@@ -31,15 +31,30 @@ Xobl = []
 Yobl = []
 Zobl = []
 
+#oblique list center
+Xoblc = []
+Yoblc = []
+Zoblc = []
+
 #top list
 Xtop = []
 Ytop = []
 Ztop = []
 
+#top list center
+Xtopc = []
+Ytopc = []
+Ztopc = []
+
 #front list
 Xfront = []
 Yfront = []
 Zfront = []
+
+#front listc
+Xfrontc = []
+Yfrontc = []
+Zfrontc = []
 
 
 Rotation = 0
@@ -58,7 +73,7 @@ def setup():
 
 def draw():
     background(255)
-    global CenterX, CenterY, Radius,Rotation, Xobl,Yobl,Zobl, Xtop,Ytop,Ztop,X,front,Yfront,Zfront,Rotation2,Rotation3
+    global CenterX, CenterY, Radius,Rotation, Xobl,Yobl,Zobl, Xtop,Ytop,Ztop,Xfront,Yfront,Zfront,Rotation2,Rotation3,Xoblc,Yoblc,Zoblc, Xtopc,Ytopc,Ztopc,Xfrontc,Yfrontc,Zfrontc
     #Add change to global horizontal angle
     
     #Grow the number of rotations
@@ -145,6 +160,10 @@ def draw():
     Xobl.append(x3)
     Yobl.append(y3)
     Zobl.append(z3)
+    #add cycle one to drawing
+    Xoblc.append(x)
+    Yoblc.append(y)
+    Zoblc.append(z)
     
     Xtop.append(xt3)
     Ytop.append(yt3)
@@ -162,6 +181,10 @@ def draw():
     PolyLine(Xtop,Ytop,Ztop)
     PolyLine(Xfront,Yfront,Zfront)
     
+    stroke(255,0,255)
+    #cycle 1 
+    PolyLine(Xoblc,Yoblc,Zoblc)
+    
     #draw triangle
     stroke(50)
     strokeWeight(.3)
@@ -176,6 +199,11 @@ def draw():
     Triangle(xf,yf,zf,xf2,yf2,zf2)
     
     line(x,y,xf,yf)
+    
+    Coordinates = str((int(x),int(y)))
+    textSize(5)
+    text(Coordinates, x,y)
+    
     
     FullSphere = degrees(CircPoints[4]) 
 

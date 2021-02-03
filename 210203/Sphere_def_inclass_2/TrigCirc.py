@@ -2,6 +2,7 @@
 #This function draws the point on circle based on sin and cos.
 #Mark Ericson 1.13.21
 
+from Triangle import Triangle
 from PolyLine import PolyLine
 
 def TrigCirc(HorAngle,VerAngle,Radius,Rotation,CenterX,CenterY,CenterZ,Orient):
@@ -50,9 +51,15 @@ def TrigCirc(HorAngle,VerAngle,Radius,Rotation,CenterX,CenterY,CenterZ,Orient):
         Y1.append(y)
         Z1.append(z)
   
-    #draw polyline  
+    
+    #draw polyline 
+    noStroke() 
     PolyLine(X1,Y1,Z1)
     
+    stroke(50)
+    strokeWeight(.3)
+
+    Triangle(CenterX,CenterY,CenterZ,x,y,z)
 
     return(x,y,z,Hor,Ver)
     

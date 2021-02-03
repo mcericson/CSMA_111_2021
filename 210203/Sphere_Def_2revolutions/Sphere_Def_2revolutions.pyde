@@ -3,6 +3,7 @@
 #1.13.21
 
 import os
+from PointOnLine import PointOnLine
 from PolyLine import PolyLine
 from TrigCirc import TrigCirc
 from Triangle import Triangle
@@ -41,7 +42,8 @@ Xfront = []
 Yfront = []
 Zfront = []
 
-
+scalar = 0
+scalar2 = 1
 Rotation = 0
 Rotation2 = 0
 
@@ -56,13 +58,29 @@ def setup():
     
 
 def draw():
-    background(255)
-    global CenterX, CenterY, Radius,Rotation, Xobl,Yobl,Zobl, Xtop,Ytop,Ztop,X,front,Yfront,Zfront,Rotation2
+    
+    global CenterX, CenterY, Radius,Rotation, scalar2,Xobl,Yobl,Zobl, Xtop,Ytop,Ztop,X,front,Yfront,Zfront,Rotation2, scalar
     #Add change to global horizontal angle
     
+    #def PointOnLine (x1,y1,z1,x2,y2,z2,scalar):
+    scalar +=.001 
+    scalar2 -=.001 
+     
+    Color1 = PointOnLine(0,255,0,255,0,255,scalar)
+    Color3 = PointOnLine(255,0,255,0,255,0,scalar2)
+    print (Color1)
+    print (Color3)
+    
+    Color2 = color(Color1[0], Color1[1], Color1[2])
+    Color4 = color(Color3[0], Color3[1], Color3[2])
+    background(Color4)
     #Grow the number of rotations
     Rotation  += 1
     Rotation2 += 6
+    
+    #create variable color scale
+    
+    
     
     #Center of Drawings on Sheet
     CyObl = -Height/3.25
@@ -135,7 +153,7 @@ def draw():
     
     
     #draw polyline through list of outer rotation points
-    stroke(0)
+    stroke(Color2)
     strokeWeight(.5)
     PolyLine(Xobl,Yobl,Zobl)
     PolyLine(Xtop,Ytop,Ztop)

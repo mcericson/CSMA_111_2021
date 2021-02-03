@@ -82,7 +82,7 @@ def draw():
     noStroke()
     CircPoints = TrigCirc(HorAngle,VerAngle,Radius,Rotation,0,CyObl,0,"Oblique")
     CircPoints2 = TrigCirc(HorAngle,VerAngle,Radius,Rotation,0,CyTop,0,"Top")
-    CircPoints3 = TrigCirc(HorAngle,VerAngle,Radius,Rotation,0,0,CyFront,"Front")
+    CircPoints3 = TrigCirc(HorAngle,VerAngle,Radius,Rotation,0,CyFront,0,"Front")
     
     #oblique
     x= CircPoints[0]
@@ -104,7 +104,7 @@ def draw():
 
     CircPointsOut = TrigCirc(-HorAngle,VerAngle,Radius/6,Rotation2,x,y,z,"Oblique")
     CircPoints2Out = TrigCirc(-HorAngle,VerAngle,Radius/6,Rotation2,xt,yt,zt,"Top")
-    CircPoints3Out = TrigCirc(-HorAngle,VerAngle,Radius/6,Rotation2,xf,0,yf,"Front")
+    CircPoints3Out = TrigCirc(-HorAngle,VerAngle,Radius/6,Rotation2,xf,yf,zf,"Front")
     
     #oblique
     x2= CircPointsOut[0]
@@ -145,13 +145,13 @@ def draw():
     stroke(50)
     strokeWeight(.3)
     #oblique
-    Triangle(0,CyObl,0,x,y,z)
+    #Triangle(0,CyObl,0,x,y,z)
     #top
-    Triangle(0,CyTop,0,xt,yt,zt)
+    #Triangle(0,CyTop,0,xt,yt,zt)
     #front
-    Triangle(0,CyFront,0,xf,yf,zf)
+    #Triangle(0,CyFront,0,xf2,yf2,zf2)
     
-    line(x,y,xf,yf)
+    line(x,y,xf2,yf2)
     
     FullSphere = degrees(CircPoints[4]) 
 
