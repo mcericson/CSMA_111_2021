@@ -21,7 +21,7 @@ rs.DeleteObjects(delSet)
 pts = []
 
 #TrigCirc(HorAngle,VerAngle,Radius,Rotation,CenterX,CenterY,CenterZ,Orient)
-for i in range(1,1000,1):
+for i in range(1,50,1):
     
     rotation1  = 1*i
     rotation2  = 5*i
@@ -37,3 +37,4 @@ Rail = rs.AddPolyline(pts)
 Vert = rs.AddPoint((pt3[0],pt3[1],pt3[2]+2))
 Path = rs.AddLine(pt,Vert)
 rs.ExtrudeCurve(Rail,Path)
+
