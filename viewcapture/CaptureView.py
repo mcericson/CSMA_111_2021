@@ -1,16 +1,17 @@
-import rhinoscriptsyntax as rs
+#Source: https://github.com/mcneel/rhino-developer-samples/blob/6/rhinopython/SampleViewCaptureToFile.py
+#Modified by Mark Ericson to include file/folder directory and scale. 2.18.21
+
+#this function saves the current viewport to the desktop in a specified folder as a png.
+#Use scale to scale up or down the viewport size to inccrease/ecrease resolution
+#Will overwrite folders and files with same name. 
+
 import Rhino 
 import System
-import os
-
 import scriptcontext as sc
 
 
-center = rs.AddPoint(0,0,0)
+def CaptureView(Scale,FileName,NewFolder):
 
-circle = rs.AddCircle(center,100)
-
-def CaptureView(Scale,FileName,FileType):
     view = sc.doc.Views.ActiveView;
     if view:
         view_capture = Rhino.Display.ViewCapture()
@@ -23,15 +24,18 @@ def CaptureView(Scale,FileName,FileType):
         view_capture.TransparentBackground = False
         bitmap = view_capture.CaptureToBitmap(view)
         if bitmap:
-            
-            #folder = rs.WorkingFolder()
+            #locate the desktop and get path
             folder = System.Environment.SpecialFolder.Desktop
-
             path = System.Environment.GetFolderPath(folder)
+            #convert foldername and file name sto string
+            FName = str(NewFolder)
+            File = str(FileName)
+            #combine foldername and desktop path
+            Dir = System.IO.Path.Combine(path,FName)
+            #creat path to tje new folder
+            NFolder = System.IO.Directory.CreateDirectory(Dir)
+            Dir = System.IO.Path.Combine(Dir,FileName +".png")
+            print (Dir)
+            #save the file
+            bitmap.Save(Dir, System.Drawing.Imaging.ImageFormat.Png);
 
-            path2 = System.IO.Directory.CreateDirectory("/image")
-
-            filename = System.IO.Path.Combine(path, "/image" , str(FileName) + str(FileType));
-            bitmap.Save(filename, System.Drawing.Imaging.ImageFormat.Png);
-
-CaptureView(2,"Test",".jpeg")
