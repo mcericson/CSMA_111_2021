@@ -32,7 +32,7 @@ def CaptureView(Scale,FileName,NewFolder):
             File = str(FileName)
             #combine foldername and desktop path
             Dir = System.IO.Path.Combine(path,FName)
-            #creat path to tje new folder
+            #creat path to the new folder
             NFolder = System.IO.Directory.CreateDirectory(Dir)
             Dir = System.IO.Path.Combine(Dir,FileName +".png")
             print (Dir)
