@@ -18,10 +18,10 @@ for i in range(0,100,20):
         s = rs.AddSphere(pt,p)
         spheres.append(s)
 #union the spheres together and assign them a color)
-Mass = rs.BooleanUnion(spheres)
-for i in Mass:
+Mass = rs.BooleanUnion(spheres)for i in Mass:
     Mat = rs.AddMaterialToObject(i)
     rs.MaterialColor(Mat,(12,59,101))
+
 
 rs.ZoomExtents()
 rs.CreatePreviewImage("test.png")
