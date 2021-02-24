@@ -7,9 +7,6 @@ import Spherical
 from Spherical import TrigCirc
 from imp import reload
 reload(Spherical)
-import CaptureView
-from CaptureView import GetCaptureView
-reload(CaptureView)
 
 #import relevant libraries
 import rhinoscriptsyntax as rs
@@ -62,28 +59,23 @@ Rail = rs.AddPolyline(Points)
 Vert = rs.AddPoint(pt3[0],pt3[1],pt3[2]+Height)
 Path = rs.AddLine(pts,Vert)
 Surf = rs.ExtrudeCurve(Rail,Path)
-#explode surfaces to list
-SurfSet = rs.ExplodePolysurfaces(Surf)
-#creat center 
-Origin = rs.AddPoint(pt2[0],pt2[1],pt3[2])
+PlCenter = rs.AddPoint(0,0,pt3[2])
 
-#create a list of paths for extrusions
 Paths = []
 for i in range(len(Points)):
-    
-    Path = rs.AddLine(Points[i],Origin)
-    Paths.append(Path)
-#extrude surfaces towards cener.   
+    Path1 = rs.AddLine(Points[i],PlCenter)
+    Paths.append(Path1)
+
+
+
+SurfSet = rs.ExplodePolysurfaces(Surf)
+
 for i in range(len(SurfSet)):
-    
     rs.ExtrudeSurface(SurfSet[i],Paths[i])
 
 views = rs.ViewNames()
-
 for view in views:
-    rs.ViewDisplayMode(view,'Rendered')
-    
-GetCaptureView(2,"Spherical_01", "Class_Example")
+    rs.ViewDisplayMode(view, 'Rendered')
 
 rs.ZoomExtents()
 

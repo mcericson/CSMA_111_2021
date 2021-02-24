@@ -1,12 +1,14 @@
 
-#This function draws draws the point on sphere 
-#Mark Ericson 2.17.21
+#This function draws the point on circle based on sin and cos.
+#Mark Ericson 1.13.21
 
-from math import sin
 from math import radians
 from math import cos
+from math import sin
+
 
 def TrigCirc(HorAngle,VerAngle,Radius,Rotation,CenterX,CenterY,CenterZ,Orient):
+    
 
     #loop to create points on sphere
     for i in range(Rotation):
