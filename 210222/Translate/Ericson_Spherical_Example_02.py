@@ -7,6 +7,7 @@ import Spherical
 from Spherical import TrigCirc
 from imp import reload
 reload(Spherical)
+
 import CaptureView
 from CaptureView import GetCaptureView
 reload(CaptureView)
@@ -30,7 +31,7 @@ Points = []
 
 #Program Variables
 
-Stop = 100
+Stop = 1000
 
 RValue1 = 1
 RValue2 = 5
@@ -78,14 +79,19 @@ for i in range(len(SurfSet)):
     
     rs.ExtrudeSurface(SurfSet[i],Paths[i])
 
+CurvesAll = rs.ObjectsByType(4,True,0)
+PointsAll = rs.ObjectsByType(1,True,0)
+
+rs.HideObjects(CurvesAll)
+rs.HideObjects(PointsAll)
+rs.HideObjects(Surf)
+rs.HideObjects(SurfSet)
+
 views = rs.ViewNames()
 
 for view in views:
     rs.ViewDisplayMode(view,'Rendered')
     
-GetCaptureView(2,"Spherical_01", "Class_Example")
-
 rs.ZoomExtents()
-
-
+GetCaptureView(2,"Spherical" + "_" + str(RValue1) + "_" + str(RValue2) + "_" + str(RValue3),"210224")
 
