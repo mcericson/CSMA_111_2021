@@ -36,10 +36,9 @@ def TrigCirc(HorAngle,VerAngle,Radius,Rotation,CenterX,CenterY,CenterZ,Orient):
         if Orient == "Oblique":
         
     
-            x = cos(Hor)*Radius*sin(Ver) + CenterX
-            y = sin(Hor)*Radius*sin(Ver) - cos(Ver)*Radius*.9 + CenterZ + CenterY
-            z = cos(Ver)*Radius + CenterZ          
-
+            x = cos(Hor)*Radius*sin(Ver) + CenterX  +  cos(radians(45))*200
+            y = sin(Hor)*Radius*sin(Ver) + CenterY  + sin(radians(45))*200
+            z = cos(Ver)*Radius + CenterZ
 
 
     return(x,y,z)

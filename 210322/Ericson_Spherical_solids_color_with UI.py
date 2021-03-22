@@ -39,16 +39,21 @@ Points2 = []
 
 #Program Variables
 
-Stop = 1000
-RValue1 = 1
-RValue2 = 5
-RValue3 = 7
+Stop = int(rs.GetReal("How many points would you like to make?"))
+RValue1 = int(rs.GetReal("How many  first rotations would you like to make?"))
+RValue2 = int(rs.GetReal("How many  second rotations would you like to make?"))
+RValue3 = int(rs.GetReal("How many  third rotations would you like to make?"))
 
-HorAngle = -10
+HorAngle = 360/(rs.GetReal("How many sides would you like to have"))
 VerAngle = .01
 
-Radius = 100
-Height = 1
+Radius = rs.GetReal("What radius would you like to use?")
+Height = rs.GetReal("How thick would you like the steps to be?")
+
+Red = rs.GetReal("On a scale of 0 to 255, how much do you like red?")
+Green = rs.GetReal("On a scale of 0 to 255, how much do you like green?")
+Blue = rs.GetReal("On a scale of 0 to 255, how much do you like blue?")
+
 
 #create loop that runs the TrigCirc function a certain number of times to generate points on the surface of a sphere
 
@@ -106,7 +111,7 @@ if Solid == True:
     for i in range(len(SurfSet)):
         Col += ColorInterval/255
         Cv.append(Col)
-        color = LinearColor(255,255,255,12,59,101,Cv[i])
+        color = LinearColor(255,255,255,Red,Green,Blue,Cv[i])
         colors.append((color[0],color[1],color[2]))
     
 #extrude surfaces towards center.   
@@ -129,13 +134,18 @@ if Solid == True:
     rs.ZoomExtents()
 
     views = rs.ViewNames()
+    
 
     for view in views:
         rs.ViewDisplayMode(view,'Rendered')
-    
-if CaptureView == True:
-    
-    GetCaptureView(2,"Spherical_02_" + str(RValue1) +"_"+ str(RValue2) +"_"+ str(RValue3)+str(color), "Class_Example")
+
+CaptureView =rs.GetString("Do you think we should take a picture of this thing y/n?")
+if CaptureView == 'y':
+    Name = rs.GetString("What Should we call it?")
+    Ready = rs.GetString("Set your current viewport to the view you want and make it a square. Ready? y/n")
+    if Ready == 'y':
+        GetCaptureView(2, str(Name)+ str(RValue1) +"_"+ str(RValue2) +"_"+ str(RValue3)+str(color), "Class_Example")
+
 
 
 

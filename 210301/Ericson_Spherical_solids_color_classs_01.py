@@ -3,19 +3,27 @@
 
 
 #import custom modules
-import Spherical
-from Spherical import TrigCirc
+import Spherical3D
+from Spherical3D import TrigCirc
 from imp import reload
-reload(Spherical)
+reload(Spherical3D)
 
-import CaptureView
-from CaptureView import GetCaptureView
-reload(CaptureView)
+import CaptureView_jpg
+from CaptureView_jpg import GetCaptureView
+reload(CaptureView_jpg)
+
+import LinearColorGradient
+from LinearColorGradient import LinearColor
+reload(LinearColorGradient)
 
 #import relevant libraries
 import rhinoscriptsyntax as rs
 import math
 import Rhino as rh
+
+#Save Drawing
+
+Capture = False
 
 
 #refresh the file by deleting all geometry
@@ -56,9 +64,10 @@ for i in range(1,Stop,1):
     pt2 = TrigCirc(HorAngle/3,VerAngle,Radius/3,rotation2,pt1[0],pt1[1],pt1[2],"ThreeD")
     pt3 = TrigCirc(HorAngle/2,VerAngle,Radius/5,rotation3,pt2[0],pt2[1],pt2[2],"ThreeD")
     
-    ptsI = rs.AddPoint(pt2[0],pt2[1],pt3[2])
+    ptsI = rs.AddPoint(pt2[0],pt2[1],pt2[2])
     pts = rs.AddPoint(pt3[0],pt3[1],pt3[2])
     Points.append(pts)
+    
     #create list of points to generate extrusion path
     PointsI.append(ptsI)
 
@@ -78,16 +87,35 @@ for i in range(len(Points)):
     
     Path1 = rs.AddLine(Points[i],PointsI[i])
     Paths.append(Path1)
-#extrude surfaces towards cener.   
+
+#empty list to store colors and values
+ColorVal = []
+Colors = []
+Col = 0
+
+#color interval per solid
+ColorInterval = 255/(len(SurfSet))
+
+for i in range(len(SurfSet)):
+    Col += ColorInterval/255
+    ColorVal.append(Col)
+    color = LinearColor(255,255,255,255,0,0,ColorVal[i])
+    Colors.append(color)
+
+
+#extrude surfaces towards cener.
 for i in range(len(SurfSet)):
     
-    rs.ExtrudeSurface(SurfSet[i],Paths[i])
+    Solid = rs.ExtrudeSurface(SurfSet[i],Paths[i])
+    Mat = rs.AddMaterialToObject(Solid)
+    rs.MaterialColor(Mat,Colors[i])
 
 CurvesAll = rs.ObjectsByType(4,True,0)
 PointsAll = rs.ObjectsByType(1,True,0)
 
 rs.HideObjects(CurvesAll)
 rs.HideObjects(PointsAll)
+
 rs.HideObjects(Surf)
 rs.HideObjects(SurfSet)
 
@@ -97,5 +125,8 @@ for view in views:
     rs.ViewDisplayMode(view,'Rendered')
     
 rs.ZoomExtents()
-#GetCaptureView(2,"Spherical" + "_" + str(RValue1) + "_" + str(RValue2) + "_" + str(RValue3),"210224")
+
+if Capture == True:
+    
+    GetCaptureView(2,"Spherical" + "_" + str(RValue1) + "_" + str(RValue2) + "_" + str(RValue3),"210224")
 

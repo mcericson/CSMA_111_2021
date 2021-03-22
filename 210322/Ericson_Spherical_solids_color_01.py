@@ -39,7 +39,7 @@ Points2 = []
 
 #Program Variables
 
-Stop = 1000
+Stop = 3000
 RValue1 = 1
 RValue2 = 5
 RValue3 = 7

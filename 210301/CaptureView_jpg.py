@@ -10,7 +10,7 @@ import System
 import scriptcontext as sc
 
 
-def CaptureView(Scale,FileName,NewFolder):
+def GetCaptureView(Scale,FileName,NewFolder):
 
     view = sc.doc.Views.ActiveView;
     if view:
@@ -34,9 +34,9 @@ def CaptureView(Scale,FileName,NewFolder):
             Dir = System.IO.Path.Combine(path,FName)
             #creat path to the new folder
             NFolder = System.IO.Directory.CreateDirectory(Dir)
-            Dir = System.IO.Path.Combine(Dir,FileName +".png")
+            Dir = System.IO.Path.Combine(Dir,FileName +".jpg")
             print (Dir)
             #save the file
-            bitmap.Save(Dir, System.Drawing.Imaging.ImageFormat.Png);
+            bitmap.Save(Dir, System.Drawing.Imaging.ImageFormat.Jpeg);
 
-CaptureView(2,'ifssooo','Class_Example')
+

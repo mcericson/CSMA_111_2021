@@ -21,7 +21,7 @@ rs.DeleteObjects(delSet)
 pts = []
 
 #TrigCirc(HorAngle,VerAngle,Radius,Rotation,CenterX,CenterY,CenterZ,Orient)
-for i in range(1,50,1):
+for i in range(1,200,1):
     
     rotation1  = 1*i
     rotation2  = 5*i

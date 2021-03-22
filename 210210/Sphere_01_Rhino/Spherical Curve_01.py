@@ -10,7 +10,6 @@ reload(TrigCircle)
 #This imports rhinoscript and allows access to all of rhinos tools.
 import rhinoscriptsyntax as rs
 import math
-import random
 
 
 delSet = rs.AllObjects(True)
@@ -24,18 +23,11 @@ Points =  []
 
 #create a for loop to generate i number of points about a sphere and then do things with those points.
 for i in range(1,180,1):
-    r = random.randint(20,60)
     pts = TrigCirc(10,.5,100,i,0,0,0,"ThreeD")
-    sphere = rs.AddSphere(pts,r)
-    Spheres.append(sphere)
     pt = rs.AddPoint(pts[0],pts[1],pts[2])
     Points.append(pt)
 
-#union the spheres together
-Mass = rs.BooleanUnion(Spheres)
-for i in Mass:
-    Object = rs.AddMaterialToObject(i)
-    rs.MaterialColor(Object,(12,59,101))
+
 rs.AddPolyline(Points)
 
 
