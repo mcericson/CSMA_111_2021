@@ -55,7 +55,7 @@ def TrigCirc(HorAngle,VerAngle,Radius,Rotation,CenterX,CenterY,CenterZ,Orient):
 
     return(x,y,z)
 
-def CaptureView(Scale,FileName,NewFolder):
+def GetCaptureView(Scale,FileName,NewFolder):
 
     view = sc.doc.Views.ActiveView;
     if view:
@@ -102,13 +102,28 @@ def LinearColor(R,G,B,R2,G2,B2,ColorPercentage):
     B3 = float(B + Bdiff*t)
 
 
-
-    return (R3,G3,B3)
+    color = rs.CreateColor(R3,G3,B3)
+    return (color)
+    
+def SaveObj(Objects,FileName,NewFolder):
+    rs.SelectObjects(Objects)
+    
+    folder = System.Environment.SpecialFolder.Desktop
+    path = System.Environment.GetFolderPath(folder)
+    #convert foldername and file name sto string
+    FName = str(NewFolder)
+    File = str(FileName)
+    #combine foldername and desktop path
+    Dir = System.IO.Path.Combine(path,FName)
+    NFolder = System.IO.Directory.CreateDirectory(Dir)
+    Dir = System.IO.Path.Combine(Dir,FileName +".obj")
+    cmd = "_-Export " + Dir + " _Enter PolygonDensity=1 _Enter"
+    rs.Command(cmd)
 
 
 
 Solid = True
-CaptureView = False
+
 
 #refresh the file by deleting all geometry
 
@@ -130,18 +145,38 @@ if DeleteObjects == "y":
 
     #Program Variables
 
-    Stop = int(rs.GetReal("How many points would you like to make?"))
+    Stop = int(rs.GetReal("How many points would you like to make?", minimum=2, maximum=1000))
 
     RValue1 = int(rs.GetReal("How many first rotations would you like to make?"))
     RValue2 = int(rs.GetReal("How many second rotations would you like to make?"))
     RValue3 = int(rs.GetReal("How many third rotations would you like to make?"))
 
-    Sides = int(rs.GetReal("How many sides would you like the first sphere to have?"))
+    Sides = int(rs.GetReal("How many sides would you like the first sphere to have?",minimum=3,maximum=30))
+    
     HorAngle = 360/Sides
     VerAngle = .01
 
-    Radius = rs.GetReal("What radius would you like to use?")
-    Height = rs.GetReal("How thick woul you like each step to be?")
+    Radius = rs.GetReal("What radius would you like to use?",minimum=1)
+    
+    #Red   = rs.GetReal("On a scale of 0 - 255, how much do you like red?",minimum = 0, maximum = 255)
+    #Green = rs.GetReal("On a scale of 0 - 255, how much do you like green?",minimum = 0, maximum = 255)
+    #Blue  = rs.GetReal("On a scale of 0 - 255, how much do you like blue?",minimum = 0, maximum = 255)
+    
+    Color = rs.GetString("Do you prefer a pink object or a red object pink/red")
+    
+    if Color == "pink":
+        Red   = 255
+        Green = 100
+        Blue  = 100
+        
+    if Color == "red":
+        Red   = 255
+        Green = 0
+        Blue  = 0
+        
+    
+    
+    Height = rs.GetReal("How thick would you like each step to be?")
 
     #create loop that runs the TrigCirc function a certain number of times to generate points on the surface of a sphere
 
@@ -199,37 +234,54 @@ if DeleteObjects == "y":
     for i in range(len(SurfSet)):
         Col += ColorInterval/255
         Cv.append(Col)
-        color = LinearColor(255,255,255,12,59,101,Cv[i])
-        colors.append((color[0],color[1],color[2]))
+        color = LinearColor(255,255,255,Red,Green,Blue,Cv[i])
+        colors.append(color)
     
-    #extrude surfaces towards center.   
-        for i in range(len(SurfSet)):
-        
-            Solid = rs.ExtrudeSurface(SurfSet[i],Paths[i])
-            Mat = rs.AddMaterialToObject(Solid)
-            rs.MaterialColor(Mat,colors[i])
+    #extrude surfaces towards center.
+    Solids = []
+    for i in range(len(SurfSet)):
+        Solid = rs.ExtrudeSurface(SurfSet[i],Paths[i])
+        Mat = rs.AddMaterialToObject(Solid)
+        rs.MaterialColor(Mat,colors[i])
+        Solids.append(Solid)
     
     #select object by type
-        CurvesAll = rs.ObjectsByType(4,True,0)
-        PointsAll = rs.ObjectsByType(1,True,0)
+    CurvesAll = rs.ObjectsByType(4,True,0)
+    PointsAll = rs.ObjectsByType(1,True,0)
     
     
-        rs.HideObjects(CurvesAll)
-        rs.HideObjects(PointsAll)
-        rs.HideObjects(Surf)
-        rs.HideObjects(SurfSet)
+    rs.HideObjects(CurvesAll)
+    rs.HideObjects(PointsAll)
+    rs.HideObjects(Surf)
+    rs.HideObjects(SurfSet)
     
-        rs.ZoomExtents()
+    rs.ZoomExtents()
     
-        views = rs.ViewNames()
+    views = rs.ViewNames()
     
-        for view in views:
+    for view in views:
             rs.ViewDisplayMode(view,'Rendered')
-        
-    if CaptureView == True:
-        
-        GetCaptureView(2,"Spherical_02_" + str(RValue1) +"_"+ str(RValue2) +"_"+ str(RValue3)+str(color), "Class_Example")
-
+            
+            
+    #this sets up the instructions for generating an image
+    
+    CaptureView = rs.GetString("Do you want to take a picture of this round thing? y/n")
+    if CaptureView == "y":
+        FileName  = rs.GetString("What would you like to call this object?")
+        NewFolder = FileName
+        Ready = rs.GetString("Please be sure your viewport is current and set to an 800 x 800 pixel size. Ready y/n?")
+        if Ready == "y":
+            GetCaptureView(2,FileName + str(RValue1) +"_"+ str(RValue2) +"_"+ str(RValue3)+str(color),NewFolder)
+        else: 
+            pass
+    else:
+        pass
+    SaveObject = rs.GetString("Do you want to export a .obj file of this object y/n?")
+    
+    if SaveObject == "y":
+        SaveObj(Solids,FileName,NewFolder)
+    
+    
 else:
     print("This command requires a blank file.  Please either open a blank file or allow the program to delete all objects")
 
