@@ -266,22 +266,25 @@ if DeleteObjects == "y":
     #this sets up the instructions for generating an image
     
     CaptureView = rs.GetString("Do you want to take a picture of this round thing? y/n")
+    
     if CaptureView == "y":
         FileName  = rs.GetString("What would you like to call this object?")
         NewFolder = FileName
         Ready = rs.GetString("Please be sure your viewport is current and set to an 800 x 800 pixel size. Ready y/n?")
+        
         if Ready == "y":
+            rs.ZoomExtents()
             GetCaptureView(2,FileName + str(RValue1) +"_"+ str(RValue2) +"_"+ str(RValue3)+str(color),NewFolder)
         else: 
             pass
     else:
         pass
-    SaveObject = rs.GetString("Do you want to export a .obj file of this object y/n?")
+    SaveObject = rs.GetString("Do you want to export an .obj file of this object y/n?")
     
     if SaveObject == "y":
         SaveObj(Solids,FileName,NewFolder)
     
-    
+    print ("Done. All information is now saved to  " str(NewFolder))
 else:
     print("This command requires a blank file.  Please either open a blank file or allow the program to delete all objects")
 
