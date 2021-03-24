@@ -284,7 +284,7 @@ if DeleteObjects == "y":
     if SaveObject == "y":
         SaveObj(Solids,FileName,NewFolder)
     
-    print ("Done. All information is now saved to  " str(NewFolder))
+    print ("Done. All information is now saved to  " + str(NewFolder))
 else:
     print("This command requires a blank file.  Please either open a blank file or allow the program to delete all objects")
 
