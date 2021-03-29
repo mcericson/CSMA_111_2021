@@ -12,6 +12,7 @@ CenterY = Height/2
 
 Radius = Width/3
 
+MakeMovie = True
 
 x1 = []
 y1 = []
@@ -33,8 +34,7 @@ def draw():
     global CenterX,CenterY, Width, Height, Radius, HorAngle, x1,y1,z1
     translate(CenterX,CenterY)
     
-    HorAngle += 2    
-    
+    HorAngle += 1
     # calculating the points on a circle
     x = cos(radians(HorAngle))*Radius
     y = sin(radians(HorAngle))*Radius
@@ -43,17 +43,18 @@ def draw():
     y1.append(y)
     z1.append(0)
     
-    strokeWeight(.75)
+    stroke(12,59,101)
+    strokeWeight(1)
     PolyLine(x1,y1,z1)
     
-    strokeWeight(.5)
-    stroke(100)
-    line(0,0,x,y)
-    line(0,0,x,0)
-    line(x,y,x,0)
+    # # strokeWeight(.5)
+    # # stroke(100)
+    # # line(0,0,x,y)
+    # # line(0,0,x,0)
+    # # line(x,y,x,0)
     
-    textSize(20)
-    fill(0)
+    # textSize(20)
+    # fill(0)
     
     x2 = int(x)
     y2 = int(y)
@@ -61,7 +62,9 @@ def draw():
     
 
     
+    if MakeMovie == True:
 
+        saveFrame("anim/" + "frame"+ "-####.png")
     
     
     
