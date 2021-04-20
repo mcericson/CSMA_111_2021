@@ -172,24 +172,11 @@ if DeleteObjects == "y":
 
     Radius = rs.GetReal("What radius would you like to use?",minimum=1)
     
-    #Red   = rs.GetReal("On a scale of 0 - 255, how much do you like red?",minimum = 0, maximum = 255)
-    #Green = rs.GetReal("On a scale of 0 - 255, how much do you like green?",minimum = 0, maximum = 255)
-    #Blue  = rs.GetReal("On a scale of 0 - 255, how much do you like blue?",minimum = 0, maximum = 255)
-    
-    Color = rs.GetString("Do you prefer a pink object or a red object pink/red")
-    
-    if Color == "pink":
-        Red   = 255
-        Green = 100
-        Blue  = 100
-        
-    if Color == "red":
-        Red   = 255
-        Green = 0
-        Blue  = 0
-        
-    
-    
+    Red   = rs.GetReal("On a scale of 0 - 255, how much do you like red?",minimum = 0, maximum = 255)
+    Green = rs.GetReal("On a scale of 0 - 255, how much do you like green?",minimum = 0, maximum = 255)
+    Blue  = rs.GetReal("On a scale of 0 - 255, how much do you like blue?",minimum = 0, maximum = 255)
+
+
     Height = rs.GetReal("How thick would you like each step to be?")
 
     #create loop that runs the TrigCirc function a certain number of times to generate points on the surface of a sphere
@@ -242,11 +229,11 @@ if DeleteObjects == "y":
     Col = 0
 
     #color interval per solid
-    ColorInterval = 255/(len(SurfSet))
+    ColorInterval = float(255.000/(len(SurfSet)))
 
     #build a list of color scalars that caps at 1.0
     for i in range(len(SurfSet)):
-        Col += ColorInterval/255
+        Col += float(ColorInterval/255.000)
         Cv.append(Col)
         color = LinearColor(255,255,255,Red,Green,Blue,Cv[i])
         colors.append(color)
@@ -288,10 +275,14 @@ if DeleteObjects == "y":
         
         if Ready == "y":
             rs.ZoomExtents()
+            rs.Command("-GroundPlane ShowPanel No Options On=No Enter Enter")
+
             GetCaptureView(2,FileName + str(RValue1) +"_"+ str(RValue2) +"_"+ str(RValue3)+str(color),NewFolder)
             
             #WriteTxt(Strings,Filename,Foldername)
-            WriteTxt([str(FileName),"Stop_" + str(Stop), "Rotations1_" + str(RValue1) ],FileName,NewFolder)
+            WriteTxt(["File_Name_" + str(FileName),"Stop_" + str(Stop), "Rotations1_" + str(RValue1),"Rotations2_" + str(RValue2),
+            "Rotations3_" + str(RValue3), "Sides_" + str(Sides), "Radius_" + str(Radius),
+            "Red_" + str(Red),"Green_" + str(Green), "Blue_" + str(Blue),"Height_" + str(Height)],FileName,NewFolder)
         else: 
             pass
     else:
@@ -303,7 +294,7 @@ if DeleteObjects == "y":
     
     
     
-    print ("Done. All information is now saved to  " + str(NewFolder))
+    print ("Done. All information is now saved to " + str(NewFolder) + " on your desktop")
 else:
     print("This command requires a blank file.  Please either open a blank file or allow the program to delete all objects")
 
