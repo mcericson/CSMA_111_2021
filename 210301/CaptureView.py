@@ -40,3 +40,4 @@ def GetCaptureView(Scale,FileName,NewFolder):
             bitmap.Save(Dir, System.Drawing.Imaging.ImageFormat.Png);
 
 
+GetCaptureView(1.0,"Liz_City","Liz_Cit")
